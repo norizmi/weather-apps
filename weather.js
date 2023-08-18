@@ -4,7 +4,7 @@ async function getWeather(cityName) {
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': 'f87d415b12msh9bf1b572378f517p11ddabjsn4d83229f2b8f',
+      'X-RapidAPI-Key': process.env.APP_KEY,
       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
     }
   };
