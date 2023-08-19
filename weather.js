@@ -4,7 +4,7 @@ async function getWeather(cityName) {
   const options = {
     method: 'GET',
     headers: {
-      'X-RapidAPI-Key': process.env.APP_KEY,
+      'X-RapidAPI-Key': 'f87d415b12msh9bf1b572378f517p11ddabjsn4d83229f2b8f',
       'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
     }
   };
@@ -35,7 +35,6 @@ btn.addEventListener("click", () => {
 
 function getCurrentWeather(currentWeather, placeholder) {
     let current = currentWeather.current;
-    console.log(current)
     let temp = current.temp_c;
     let condition = current.condition;
     let img = document.createElement("img");
@@ -53,7 +52,6 @@ function getTomorrowWeather(data, placeholder) {
   let tomorrow = data.forecast.forecastday[1]
   let maxtemp = tomorrow.day.maxtemp_c;
   let img = tomorrow.day.condition.icon;
-  console.log(img)
   let keterangan = tomorrow.day.condition.text;
   let gambar = document.createElement("img");
   let temp = document.createElement("div")
