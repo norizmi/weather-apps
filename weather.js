@@ -20,6 +20,7 @@ async function getWeather(cityName) {
       cuaca.appendChild(judul);
       getCurrentWeather(data, cuaca);
       getTomorrowWeather(data, cuaca);
+      getAfterTomorrow(data, cuaca)
     })
     .catch((err) => console.error(err));
 }
@@ -100,6 +101,39 @@ function getTomorrowWeather(data, placeholder) {
   );
 
   item.append(tomorrowWeather, ket, gambar, temp, maxMin, avghumidity);
+  item.classList.add("item");
+  placeholder.appendChild(item);
+}
+
+function getAfterTomorrow(data, placeholder) {
+  let afterTomorrow = data.forecast.forecastday[2];
+  console.log(data.forecast)
+  let avgTemp = afterTomorrow.day["avgtemp_c"];
+  let maxtemp = afterTomorrow.day["maxtemp_c"];
+  let mintemp = afterTomorrow.day["mintemp_c"];
+  let img = afterTomorrow.day.condition.icon;
+  let keterangan = afterTomorrow.day.condition.text;
+  let newUpdated = afterTomorrow.date;
+  let humidity = afterTomorrow.day.avghumidity;
+  let gambar = document.createElement("img");
+  let temp = document.createElement("div");
+  let ket = document.createElement("p");
+  let item = document.createElement("div");
+  let afterWeather = document.createElement("h1");
+  let maxMin = document.createElement("p");
+  let avghumidity = document.createElement("p");
+  gambar.src = img;
+  temp.innerHTML = `Average temperature: ${avgTemp}°C`;
+  ket.innerHTML = `"${keterangan}"`;
+  maxMin.innerHTML = `(Maximum: ${maxtemp}°C, Minimum: ${mintemp}°C)`;
+  avghumidity.innerHTML = `Average Humidity: ${humidity}%`;
+  afterWeather.innerHTML = `Weather of ${newUpdated}`;
+  afterWeather.setAttribute(
+    "style",
+    "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:white; font-size: 20px"
+  );
+
+  item.append(afterWeather, ket, gambar, temp, maxMin, avghumidity);
   item.classList.add("item");
   placeholder.appendChild(item);
 }
