@@ -12,9 +12,12 @@ async function getWeather(cityName) {
   await fetch(url, options)
   .then(response => response.json())
   .then(data => {
-    const cuaca = document.getElementById("cuaca")
+    const cuaca = document.getElementById("cuaca");
     const judul = document.createElement("h1");
-    judul.innerHTML = data.location.country;
+    const nameCountry = data.location.name
+    const country = data.location.country
+    judul.innerHTML = `Showing the weather of ${nameCountry}, ${country}`
+    judul.classList.add("title")
     cuaca.appendChild(judul)
     getCurrentWeather(data, cuaca)
     getTomorrowWeather(data, cuaca)
@@ -35,31 +38,58 @@ btn.addEventListener("click", () => {
 
 function getCurrentWeather(currentWeather, placeholder) {
     let current = currentWeather.current;
+    let humidity = current.humidity
     let temp = current.temp_c;
     let condition = current.condition;
+    let lastUpdated = current["last_updated"];
+    let titleCurrentWeather = document.createElement("h1")
     let img = document.createElement("img");
-    img.src = condition.icon;
-    placeholder.appendChild(img)
     let temperature = document.createElement("div");
     let keterangan = document.createElement("p");
-    keterangan.innerHTML = condition.text;
-    placeholder.appendChild(keterangan)
-    temperature.innerHTML = temp;
-    placeholder.appendChild(temperature);
+    let item = document.createElement("div")
+    let lembab = document.createElement("p");
+    let update = document.createElement("p");
+    titleCurrentWeather.innerHTML = `Current Weather`
+    titleCurrentWeather.setAttribute("style", "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:white; font-size: 20px")
+    img.src = condition.icon;
+    keterangan.innerHTML = `"${condition.text}"`;
+    temperature.innerHTML = `Temperature: ${temp}°C`;
+    lembab.innerHTML =`Humidity: ${humidity}%`
+    update.innerHTML = `(updated at ${lastUpdated})`;
+
+
+    item.append(titleCurrentWeather, keterangan, img, temperature, lembab, update)
+
+    item.classList.add("item")
+    placeholder.appendChild(item)
+    
 }
 
 function getTomorrowWeather(data, placeholder) {
   let tomorrow = data.forecast.forecastday[1]
-  let maxtemp = tomorrow.day.maxtemp_c;
+  let avgTemp = tomorrow.day["avgtemp_c"];
+  let maxtemp = tomorrow.day["maxtemp_c"];
+  let mintemp = tomorrow.day["mintemp_c"];
   let img = tomorrow.day.condition.icon;
   let keterangan = tomorrow.day.condition.text;
+  let newUpdated = tomorrow.date;
+  let humidity = tomorrow.day.avghumidity
   let gambar = document.createElement("img");
   let temp = document.createElement("div")
   let ket = document.createElement("p")
+  let item = document.createElement("div")
+  let tomorrowWeather = document.createElement("h1")
+  let maxMin = document.createElement("p")
+  let avghumidity = document.createElement("p")
   gambar.src = img;
-  temp.innerHTML = maxtemp;
-  ket.innerHTML = keterangan
-  placeholder.appendChild(gambar)
-  placeholder.appendChild(temp)
-  placeholder.appendChild(ket)
+  temp.innerHTML = `Average temperature: ${avgTemp}°C`;
+  ket.innerHTML = `"${keterangan}"`
+  maxMin.innerHTML = `(Maximum: ${maxtemp}°C, Minimum: ${mintemp}°C)`
+  avghumidity.innerHTML = `Average Humidity: ${humidity}%`
+  tomorrowWeather.innerHTML = `Weather of ${newUpdated}`
+  tomorrowWeather.setAttribute("style", "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; color:white; font-size: 20px")
+
+  item.append(tomorrowWeather, ket, gambar, temp, maxMin, avghumidity)
+  item.classList.add("item")
+  placeholder.appendChild(item)
 }
