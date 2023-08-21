@@ -32,7 +32,12 @@ async function getWeather(cityName) {
 const btn = document.getElementById("get-city");
 btn.addEventListener("click", () => {
   const city = document.getElementById("city").value
-  getWeather(city);
+  if(city) {
+    getWeather(city);
+  } else {
+    return alert("input tidak boleh kosong")
+  }
+  
 })
 
 
